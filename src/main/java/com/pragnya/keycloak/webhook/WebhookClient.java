@@ -47,6 +47,9 @@ public class WebhookClient {
                     if (success) {
                         return true;
                     }
+                    // send() returns false for non-retryable failures (e.g., 4xx).
+                    // Only exceptions (5xx / network errors) trigger a retry.
+                    break;
                 } catch (Exception e) {
                     lastException = e;
                     logger.warnf("Webhook attempt %d/%d failed: %s", 
